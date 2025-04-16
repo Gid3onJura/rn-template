@@ -1,6 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { create } from "zustand"
 
+export interface AuthStore {
+  user: any
+  token: string | null
+  isLoading: boolean
+  login: (username: string, password: string) => any
+  checkAuth: () => void
+  logout: () => void
+}
+
 export const useAuthStore = create((set) => ({
   user: null,
   token: null,
@@ -50,5 +59,28 @@ export const useAuthStore = create((set) => ({
         message: error.message || "Ein Fehler ist aufgetreten",
       }
     }
+  },
+
+  checkAuth: async () => {
+    try {
+      const userJson = await AsyncStorage.getItem("user")
+      const user = userJson ? JSON.parse(userJson) : null
+      const token = await AsyncStorage.getItem("token")
+
+      if (user && token) {
+        set({
+          user,
+          token,
+        })
+      }
+    } catch (error) {
+      console.error("Error checking auth:", error)
+    }
+  },
+
+  logout: async () => {
+    await AsyncStorage.removeItem("user")
+    await AsyncStorage.removeItem("token")
+    set({ token: null, user: null })
   },
 }))

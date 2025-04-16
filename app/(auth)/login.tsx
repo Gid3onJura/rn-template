@@ -13,13 +13,7 @@ import React, { useState } from "react"
 import styles from "../../assets/styles/login.styles.js"
 import COLORS from "@/constants/colors.js"
 import Ionicons from "react-native-vector-icons/Ionicons"
-import { useAuthStore } from "@/store/authStore"
-
-interface AuthStore {
-  user: any
-  isLoading: boolean
-  login: (username: string, password: string) => any
-}
+import { AuthStore, useAuthStore } from "@/store/authStore"
 
 export default function Login() {
   const [username, setUsername] = useState("")
@@ -29,9 +23,6 @@ export default function Login() {
   const { isLoading, login } = useAuthStore() as AuthStore
 
   const handleLogin = async () => {
-    console.log("====================================")
-    console.log(isLoading)
-    console.log("====================================")
     const result = await login(username, password)
     if (!result.success) {
       Alert.alert("Fehler", result.message || "Ein Fehler ist aufgetreten")
