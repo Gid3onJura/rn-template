@@ -20,7 +20,7 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  const { isLoading, login } = useAuthStore() as AuthStore
+  const { isLoading, login, token } = useAuthStore() as AuthStore
 
   const handleLogin = async () => {
     const result = await login(username, password)
