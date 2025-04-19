@@ -11,6 +11,7 @@ import {
 } from "react-native"
 import React, { useState } from "react"
 import styles from "../../assets/styles/login.styles.js"
+import stylesHome from "@/assets/styles/home.styles.js"
 import COLORS from "@/constants/colors.js"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { AuthStore, useAuthStore } from "@/store/authStore"
@@ -51,6 +52,11 @@ export default function Login() {
         </View>
 
         <View style={styles.card}>
+          <View style={stylesHome.header}>
+            <Text style={stylesHome.headerTitle}>Termin Portal</Text>
+            <Text style={stylesHome.headerSubtitle}>Bitte melde dich an, um fortzufahren.</Text>
+          </View>
+
           <View style={styles.formContainer}>
             {/* username */}
             <View style={styles.inputGroup}>
