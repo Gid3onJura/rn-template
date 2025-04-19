@@ -1,8 +1,9 @@
-import { View, Text, FlatList } from "react-native"
+import { View, Text, FlatList, RefreshControl } from "react-native"
 import React, { useEffect, useState } from "react"
 import { AuthStore, useAuthStore } from "@/store/authStore"
 import styles from "@/assets/styles/home.styles"
 import { DateItemProps } from "@/interfaces"
+import COLORS from "@/constants/colors"
 
 export default function Home() {
   const { token } = useAuthStore() as AuthStore
@@ -60,6 +61,14 @@ export default function Home() {
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchDates(true)}
+            tintColor={COLORS.primary}
+            colors={[COLORS.primary]}
+          />
+        }
       />
     </View>
   )
