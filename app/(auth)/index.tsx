@@ -20,13 +20,17 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  const { isLoading, login, token } = useAuthStore() as AuthStore
+  const { isLoading, login, isCheckingAuth } = useAuthStore() as AuthStore
 
   const handleLogin = async () => {
     const result = await login(username, password)
     if (!result.success) {
       Alert.alert("Fehler", result.message || "Ein Fehler ist aufgetreten")
     }
+  }
+
+  if (isCheckingAuth) {
+    return null
   }
 
   return (

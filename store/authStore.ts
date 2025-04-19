@@ -5,6 +5,7 @@ export interface AuthStore {
   user: any
   token: string | null
   isLoading: boolean
+  isCheckingAuth: boolean
   login: (username: string, password: string) => any
   checkAuth: () => void
   logout: () => void
@@ -14,6 +15,7 @@ export const useAuthStore = create((set) => ({
   user: null,
   token: null,
   isLoading: false,
+  isCheckingAuth: true,
 
   login: async (username: string, password: string) => {
     set({ isLoading: true })
@@ -75,6 +77,8 @@ export const useAuthStore = create((set) => ({
       }
     } catch (error) {
       console.error("Error checking auth:", error)
+    } finally {
+      set({ isCheckingAuth: false })
     }
   },
 
