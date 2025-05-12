@@ -1,14 +1,17 @@
-import { View, Text, FlatList, RefreshControl } from "react-native"
+import { View, Text, FlatList, RefreshControl, TouchableOpacity } from "react-native"
 import React, { useEffect, useState } from "react"
 import { AuthStore, useAuthStore } from "@/store/authStore"
 import styles from "@/assets/styles/home.styles"
 import { DateItemProps } from "@/interfaces"
 import COLORS from "@/constants/colors"
+import { useRouter } from "expo-router"
 
 export default function Home() {
   const { token } = useAuthStore() as AuthStore
   const [dates, setDates] = useState([])
   const [refreshing, setRefreshing] = useState(false)
+
+  const router = useRouter()
 
   const fetchDates = async (refresh = false) => {
     if (refresh) {
@@ -43,13 +46,25 @@ export default function Home() {
 
   const renderDateItem = ({ item }: { item: DateItemProps }) => {
     return (
-      <View style={styles.bookCard}>
-        <View style={styles.bookHeader}>
-          <View style={styles.userInfo}>
-            <Text style={styles.username}>{item.description}</Text>
+      <TouchableOpacity
+        onPress={() =>
+          router.push({
+            pathname: "/details/[id]",
+            params: {
+              id: item.id,
+              description: item.description,
+            },
+          })
+        }
+      >
+        <View style={styles.bookCard}>
+          <View style={styles.bookHeader}>
+            <View style={styles.userInfo}>
+              <Text style={styles.username}>{item.description}</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 
